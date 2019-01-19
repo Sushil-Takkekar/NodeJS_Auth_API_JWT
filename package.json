@@ -1,0 +1,17 @@
+{
+  "name": "nodejs_auth_api",
+  "version": "1.0.0",
+  "description": "Sample auth api application using JWT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Sushil Takkekar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "nodemon": "^1.18.9"
+  }
+}
