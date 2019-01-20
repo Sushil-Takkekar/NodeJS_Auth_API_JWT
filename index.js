@@ -21,7 +21,7 @@ app.post('/login', (req, res) => {
     // verify username and pass
 
     // generate jwt token
-    jwt.sign(user, 'secret', (err, data) => {
+    jwt.sign(user, 'secret', { expiresIn: '20m' }, (err, data) => {
         if(err) {
             res.send('Unable to generate token !');
         }

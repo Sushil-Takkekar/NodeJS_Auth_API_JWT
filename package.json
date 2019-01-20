@@ -10,6 +10,7 @@
   "author": "Sushil Takkekar",
   "license": "ISC",
   "dependencies": {
+    "eslint": "^5.12.1",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "nodemon": "^1.18.9"
