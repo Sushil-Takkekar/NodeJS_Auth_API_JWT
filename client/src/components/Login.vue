@@ -10,9 +10,9 @@
                 <p class="message">Already registered? <a href="#">Sign In</a></p>
             </form>
             <form class="login-form">
-                <input type="text" placeholder="username"/>
-                <input type="password" placeholder="password"/>
-                <button>login</button>
+                <input type="text" v-model="username" placeholder="username"/>
+                <input type="password" v-model="pass" placeholder="password"/>
+                <button v-on:click="reqLogin">login</button>
                 <p class="message">Not registered? <a href="#">Create an account</a></p>
             </form>
         </div>
@@ -21,6 +21,38 @@
 </template>
 
 <script>
+import UserService from '../AxiosUserService';
+import router from 'vue-router';
+
+export default {
+  name: 'Profile',
+  data() {
+      return {
+        username : '',
+        pass: ''
+      }
+  },
+  methods: {
+      async reqLogin() {
+          alert('Login called...');
+        // call login api
+        const loginResult = await UserService.loginUser(this.username,this.pass);
+        alert(this.username);
+        alert(JSON.stringify(loginResult));
+        if(typeof loginResult.error === 'undefined') {
+            // show profile page
+            router.push({
+                path: '/profile',
+                params: {
+                    token: loginResult.data.token
+                }  
+            });
+        }else {
+            console.log('Error: '+loginResult.error);
+        }
+      }
+  }
+}   
 </script>
 
 <style>

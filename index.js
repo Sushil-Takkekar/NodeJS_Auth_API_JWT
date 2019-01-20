@@ -1,15 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-// sample user
-const user = {
-    id : 101,
-    fname : "John",
-    lname : "Cena",
-    email : "johnc123@gmial.com"
-}
+app.use(cors());
+app.use(bodyParser.json());
 
 // sample route to test the app
 app.get('/api', (req, res) => {
@@ -20,10 +17,18 @@ app.get('/api', (req, res) => {
 app.post('/login', (req, res) => {
     // verify username and pass
 
+    // sample user
+    const user = {
+        id : 102,
+        fname : "John",
+        lname : "Cena",
+        age : 21,
+        email : req.body.username
+    }
     // generate jwt token
     jwt.sign(user, 'secret', { expiresIn: '20m' }, (err, data) => {
         if(err) {
-            res.send('Unable to generate token !');
+            res.send({ error: err, err_msg: 'Unable to generate token !' });
         }
         res.json({ token: data });
     });

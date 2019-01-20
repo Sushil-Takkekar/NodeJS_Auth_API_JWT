@@ -3,6 +3,7 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <Login />
+    <Profile token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAyLCJmbmFtZSI6IkpvaG4iLCJsbmFtZSI6IkNlbmEiLCJhZ2UiOjIxLCJlbWFpbCI6InN1c2h5QGdtLmNvbSIsImlhdCI6MTU0ODAxMzA0NCwiZXhwIjoxNTQ4MDE0MjQ0fQ.zZQNHfFHZruj3NzjSLeert0xkXDnWkF3Vaw96AFVq1I"/>
   </div>
 </template>
 

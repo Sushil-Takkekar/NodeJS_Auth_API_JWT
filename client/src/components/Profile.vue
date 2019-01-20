@@ -11,16 +11,45 @@
         <div class="profile_details">
             <span id="profile_header">Profile Details</span>
             <div id="profile_data">
-                <span id="profile_ele">Name : Sushil Takkekar</span>
-                <span id="profile_ele">Age : 22</span>
-                <span id="profile_ele">Email : sushil.takkekar123@gmail.com</span>
+                <span id="profile_ele">Name : {{ fname }} Takkekar</span>
+                <span id="profile_ele">Age : {{ age }}</span>
+                <span id="profile_ele">Email : {{ email }}</span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import UserService from '../AxiosUserService';
 
+export default {
+  name: 'Profile',
+  props: {
+    token : String
+  },
+  data() {
+      return {
+            error : '',
+            fname : '',
+            lname : '',
+            age : '',
+            email : ''
+      }
+  },
+  async created() {
+      try {
+          // call profile api
+          const profile_data = await UserService.getProfile(this.token);
+          alert(JSON.stringify(profile_data));
+          this.fname = profile_data.data.fname;
+          this.lname = profile_data.data.lname;
+          this.age = profile_data.data.age;
+          this.email = profile_data.data.email;
+      }catch(err) {
+        this.error = err.message;
+      }
+  }
+}
 </script>
 
 <style>
