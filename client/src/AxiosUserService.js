@@ -10,6 +10,9 @@ class UserService {
             'Content-Type': 'application/json;charset=UTF-8',
             'Access-Control-Allow-Origin': '*'
         }
+        if(username == '' || pass =='') {
+            return { error: 'Invalid username/password' }
+        }
         return axios.post(login_url, {
             username : username,
             pass : pass

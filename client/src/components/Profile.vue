@@ -11,7 +11,7 @@
         <div class="profile_details">
             <span id="profile_header">Profile Details</span>
             <div id="profile_data">
-                <span id="profile_ele">Name : {{ fname }} Takkekar</span>
+                <span id="profile_ele">Name : {{ fname }} {{ lname }}</span>
                 <span id="profile_ele">Age : {{ age }}</span>
                 <span id="profile_ele">Email : {{ email }}</span>
             </div>
@@ -21,6 +21,7 @@
 
 <script>
 import UserService from '../AxiosUserService';
+import router from 'vue-router';
 
 export default {
   name: 'Profile',
@@ -38,9 +39,16 @@ export default {
   },
   async created() {
       try {
+          // check existence of token
+          if(typeof this.token === 'undefined') {
+            // re-direct to login
+            this.$router.push({
+                name: 'login_route'
+            });
+          }
           // call profile api
           const profile_data = await UserService.getProfile(this.token);
-          alert(JSON.stringify(profile_data));
+          //alert(JSON.stringify(profile_data));
           this.fname = profile_data.data.fname;
           this.lname = profile_data.data.lname;
           this.age = profile_data.data.age;
@@ -84,11 +92,13 @@ export default {
     #img_name {
         font-family: sans-serif;
         font-size: larger;
+        color: white;
     }
     .profile_details{
         float: left;
         margin: auto 10px;
         padding: 10px;
+        color: #f7f9f3;
         min-width: calc(var(--profile-min-wid) - var(--img-details-min-wid) - 20px - 20px);
         max-width: 850px;
         /* min-wid-area = (--profile-min-wid) - (--img-details-min-wid) - 20px(pad*2) + 20px(mar*2) = 640*/

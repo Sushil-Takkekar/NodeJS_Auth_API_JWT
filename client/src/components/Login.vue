@@ -9,7 +9,7 @@
                 <button>create</button>
                 <p class="message">Already registered? <a href="#">Sign In</a></p>
             </form>
-            <form class="login-form">
+            <form class="login-form" onSubmit={this.reqLogin.bind(this)}>
                 <input type="text" v-model="username" placeholder="username"/>
                 <input type="password" v-model="pass" placeholder="password"/>
                 <button v-on:click="reqLogin">login</button>
@@ -33,22 +33,23 @@ export default {
       }
   },
   methods: {
-      async reqLogin() {
-          alert('Login called...');
+      async reqLogin(e) {
+        e.preventDefault(); // IMP to prevent refreshing the page
         // call login api
-        const loginResult = await UserService.loginUser(this.username,this.pass);
-        alert(this.username);
-        alert(JSON.stringify(loginResult));
+        const loginResult = await UserService.loginUser(this.username,this.pass);        
+       //alert(JSON.stringify(loginResult));
         if(typeof loginResult.error === 'undefined') {
             // show profile page
-            router.push({
-                path: '/profile',
+            this.$router.push({
+                name: 'profile_route',
                 params: {
                     token: loginResult.data.token
-                }  
+                } 
             });
         }else {
-            console.log('Error: '+loginResult.error);
+            const err_msg = 'Error: '+loginResult.error;
+            console.log(err_msg);
+            alert(err_msg);
         }
       }
   }
