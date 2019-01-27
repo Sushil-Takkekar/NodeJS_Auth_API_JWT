@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const login_url = 'http://localhost:3001/login';
+const reg_url = 'http://localhost:3001/reguser';
 const profile_url = 'http://localhost:3001/profile';
 
 class UserService {
@@ -17,6 +18,24 @@ class UserService {
             username : username,
             pass : pass
         }, {headers : header_data});
+    }
+
+    // make registration request
+    static regUser(fname,lname, age, pass, email) {
+        const header_data = {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Access-Control-Allow-Origin': '*'
+        }
+        if(fname=='' || lname=='' || age=='' || pass=='' || email=='') {
+            return { data: { error: 'Invalid form data !' }}
+        }
+        return axios.post(reg_url, {
+            fname,
+            lname,
+            age,
+            pass,
+            email
+        }, { headers : header_data});
     }
 
     // get profile data

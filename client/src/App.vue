@@ -14,18 +14,15 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import Login from './components/Login.vue'
-import Profile from './components/Profile.vue'
-import About from './components/About.vue'
+//import Login from './components/Login.vue'
+//import Profile from './components/Profile.vue'
+//import About from './components/About.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
-    Login,
-    Profile,
-    About
+    //Login,
+    //Profile
   }
 }
 </script>

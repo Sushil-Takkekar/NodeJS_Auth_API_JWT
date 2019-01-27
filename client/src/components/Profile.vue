@@ -21,7 +21,6 @@
 
 <script>
 import UserService from '../AxiosUserService';
-import router from 'vue-router';
 
 export default {
   name: 'Profile',
@@ -46,6 +45,10 @@ export default {
                 name: 'login_route'
             });
           }
+          
+          // get the token from cookie
+          // this.token = this.$cookie.get('token');
+
           // call profile api
           const profile_data = await UserService.getProfile(this.token);
           //alert(JSON.stringify(profile_data));

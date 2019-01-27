@@ -34,6 +34,13 @@ app.post('/login', (req, res) => {
     });
 });
 
+// registration page
+app.post('/reguser', (req, res) => {
+    // add user to db
+
+    res.json({ status: "success" });
+});
+
 // show profile page
 app.post('/profile', getHeaderToken, (req, res) => {
     // verify the token

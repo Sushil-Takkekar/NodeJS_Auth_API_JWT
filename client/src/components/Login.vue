@@ -2,19 +2,25 @@
     <div class="login">
         <div class="login-page">
         <div class="form">
-            <form class="register-form">
-                <input type="text" placeholder="name"/>
-                <input type="password" placeholder="password"/>
-                <input type="text" placeholder="email address"/>
-                <button>create</button>
-                <p class="message">Already registered? <a href="#">Sign In</a></p>
-            </form>
-            <form class="login-form" onSubmit={this.reqLogin.bind(this)}>
-                <input type="text" v-model="username" placeholder="username"/>
-                <input type="password" v-model="pass" placeholder="password"/>
-                <button v-on:click="reqLogin">login</button>
-                <p class="message">Not registered? <a href="#">Create an account</a></p>
-            </form>
+            <transition name="fade">
+                <form v-if="show_reg_form" class="register-form">
+                    <input type="text" v-model="fname" placeholder="first name"/>
+                    <input type="text" v-model="lname" placeholder="last name"/>
+                    <input type="number" v-model="age" placeholder="age"/>
+                    <input type="password" v-model="reg_pass" placeholder="password"/>
+                    <input type="email" v-model="email" placeholder="email address"/>
+                    <button v-on:click="reqRegister">create</button>
+                    <p class="message">Already registered? <a href="#" v-on:click="toggle_login_reg">Sign In</a></p>
+                </form>
+            </transition>
+            <transition name="fade">
+                <form v-if="show_login_form" class="login-form" onSubmit={this.reqLogin.bind(this)}>
+                    <input type="text" v-model="username" placeholder="username or email"/>
+                    <input type="password" v-model="pass" placeholder="password"/>
+                    <button v-on:click="reqLogin">login</button>
+                    <p class="message">Not registered? <a href="#" v-on:click="toggle_login_reg">Create an account</a></p>
+                </form>
+            </transition>
         </div>
     </div>
     </div>    
@@ -22,23 +28,33 @@
 
 <script>
 import UserService from '../AxiosUserService';
-import router from 'vue-router';
 
 export default {
   name: 'Profile',
   data() {
       return {
+        show_login_form: true,
+        show_reg_form: false,
         username : '',
-        pass: ''
+        pass: '',
+        fname: '',
+        lname: '',
+        age: '',
+        reg_pass: '',
+        email: ''
       }
   },
   methods: {
+      // handle login request
       async reqLogin(e) {
-        e.preventDefault(); // IMP to prevent refreshing the page
+        e.preventDefault(); // IMP to prevent refreshing the page on first-time submit. Removes '?' from url.
         // call login api
         const loginResult = await UserService.loginUser(this.username,this.pass);        
        //alert(JSON.stringify(loginResult));
         if(typeof loginResult.error === 'undefined') {
+            // store the token in cookie
+            // this.$cookie.set('token', loginResult.data.token, 1);
+
             // show profile page
             this.$router.push({
                 name: 'profile_route',
@@ -51,6 +67,30 @@ export default {
             console.log(err_msg);
             alert(err_msg);
         }
+      },
+
+      // handle registration request
+      async reqRegister(e) {
+        e.preventDefault();
+        // call registration api
+        const regResult = await UserService.regUser(this.fname,this.lname,this.age,this.reg_pass,this.email);
+        //alert(JSON.stringify(regResult));
+        if(regResult.data.error) {
+            alert(regResult.data.error);
+        }
+        else if(regResult.data.status == 'success') {
+            alert('Registration successful !');
+            this.toggle_login_reg(e);
+        } else {
+            alert('Registration failed !');
+        }
+      },
+
+      // handle login/reg toggle request
+      async toggle_login_reg(e) {
+        e.preventDefault();
+        this.show_reg_form = !this.show_reg_form;
+        this.show_login_form = !this.show_login_form;
       }
   }
 }   
@@ -58,6 +98,13 @@ export default {
 
 <style>
     @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+    .fade-enter-active {
+        transition: opacity .7s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
 
     .login-page {
     width: 360px;
@@ -110,9 +157,6 @@ export default {
     .form .message a {
     color: #4CAF50;
     text-decoration: none;
-    }
-    .form .register-form {
-    display: none;
     }
     .container {
     position: relative;
