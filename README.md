@@ -7,7 +7,7 @@ Install all the node modules
 $ npm install
 ```
 
-## TO-DO
+### TO-DO
 1. Handle 'Forbidden' response in axios service
 2. Storage of JWT token on client-side (prevent login after refresh)
 3. Implement Logout logic

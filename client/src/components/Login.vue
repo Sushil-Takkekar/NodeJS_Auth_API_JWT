@@ -50,8 +50,8 @@ export default {
         e.preventDefault(); // IMP to prevent refreshing the page on first-time submit. Removes '?' from url.
         // call login api
         const loginResult = await UserService.loginUser(this.username,this.pass);        
-       //alert(JSON.stringify(loginResult));
-        if(typeof loginResult.error === 'undefined') {
+        //alert(JSON.stringify(loginResult));
+        if(typeof loginResult.data.error === 'undefined') {
             // store the token in cookie
             // this.$cookie.set('token', loginResult.data.token, 1);
 
@@ -63,7 +63,7 @@ export default {
                 } 
             });
         }else {
-            const err_msg = 'Error: '+loginResult.error;
+            const err_msg = 'Error: '+loginResult.data.err_msg;
             console.log(err_msg);
             alert(err_msg);
         }
